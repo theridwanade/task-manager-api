@@ -1,1 +1,21 @@
-console.log("Hello, TypeScript!");
+import "dotenv/config";
+import express from "express";
+import { connectdb } from "./util/connectdb";
+
+const app = express();
+const PORT = Number(process.env.PORT) || 3000;
+
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
+
+app.listen(PORT, (err) => {
+  if (err) {
+    console.error("Error starting server:", err);
+    process.exit(1);
+  }
+  connectdb();
+  console.log(`Server is running on port ${PORT}`);
+  console.log(`Access the server at: http://localhost:${PORT}`);
+  console.log(`Environment: ${process.env.NODE_ENV}`);
+});
