@@ -42,3 +42,22 @@ export const authLoginController = async (req: Request, res: Response) => {
     return;
   }
 }
+
+
+export const authLogoutController = async (req: Request, res: Response) => {
+  try {
+    res.clearCookie("token");
+    res.status(200).json({
+      message: "Logout successful",
+      code: 200,
+      success: true,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      message: error.message,
+      code: 500,
+      success: false,
+    });
+    return;
+  }
+};
