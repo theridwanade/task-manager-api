@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import bcrypt from "bcrypt";
 import User from "../model/users.model";
+import { hashData } from "../util/hashData";
 
 export const authSignupController = async (req: Request, res: Response) => {
   try {
@@ -14,7 +14,7 @@ export const authSignupController = async (req: Request, res: Response) => {
       return;
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await hashData(password);
     let newUser;
     if(firstname && lastname) {
       newUser = new User({
