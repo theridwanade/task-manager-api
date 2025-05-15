@@ -1,22 +1,26 @@
-import { Request, Response } from "express";
 import User from "../model/users.model";
 import { hashData } from "../util/hashData";
 
-export const authSignupController = async (req: Request, res: Response) => {
+interface signupDataType {
+  email: string;
+  password: string;
+  firstname?: string;
+  lastname?: string;
+}
+export const authSignupService = async (signupData: signupDataType) => {
   try {
-    const { email, password, firstname, lastname } = req.body;
+    const { email, password, firstname, lastname } = signupData;
     if (!email || !password) {
-      res.status(400).json({
+      return {
         message: "Email and password are required",
         code: 400,
         success: false,
-      });
-      return;
+      };
     }
 
     const hashedPassword = await hashData(password);
     let newUser;
-    if(firstname && lastname) {
+    if (firstname && lastname) {
       newUser = new User({
         email,
         password: hashedPassword,
@@ -31,24 +35,22 @@ export const authSignupController = async (req: Request, res: Response) => {
     }
     const user = await newUser.save();
     if (!user) {
-      res.status(500).json({
+      return {
         message: "User not created",
         code: 500,
         success: false,
-      });
-      return;
+      };
     }
-    res.status(201).json({
+    return {
       message: "User created successfully",
       code: 201,
       success: true,
-    });
+    };
   } catch (error: any) {
-    res.status(500).json({
+    return {
       message: error.message,
       code: 500,
       success: false,
-    });
-    return;
+    };
   }
 };
