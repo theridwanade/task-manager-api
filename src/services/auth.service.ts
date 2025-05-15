@@ -91,6 +91,7 @@ export const authLoginService = async (loginData: AuthDataType) => {
       firstname: user.firstname,
       lastname: user.lastname,
     });
+    
     return {
       message: "Login successful",
       code: 200,
