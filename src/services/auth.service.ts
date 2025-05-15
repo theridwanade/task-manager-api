@@ -1,13 +1,15 @@
 import User from "../model/users.model";
 import { hashData } from "../util/hashData";
+import bcrypt from "bcrypt";
+import { generateToken } from "../util/jwttoken";
 
-interface signupDataType {
+interface AuthDataType {
   email: string;
   password: string;
   firstname?: string;
   lastname?: string;
 }
-export const authSignupService = async (signupData: signupDataType) => {
+export const authSignupService = async (signupData: AuthDataType) => {
   try {
     const { email, password, firstname, lastname } = signupData;
     if (!email || !password) {
@@ -45,6 +47,57 @@ export const authSignupService = async (signupData: signupDataType) => {
       message: "User created successfully",
       code: 201,
       success: true,
+    };
+  } catch (error: any) {
+    return {
+      message: error.message,
+      code: 500,
+      success: false,
+    };
+  }
+};
+
+export const authLoginService = async (loginData: AuthDataType) => {
+  try {
+    const { email, password } = loginData;
+    if (!email || !password) {
+      return {
+        message: "Email and password are required",
+        code: 400,
+        success: false,
+      };
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return {
+        message: "User not found",
+        code: 404,
+        success: false,
+      };
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return {
+        message: "Invalid password",
+        code: 401,
+        success: false,
+      };
+    }
+    const token = await generateToken({
+      user: user._id,
+      email: user.email,
+      firstname: user.firstname,
+      lastname: user.lastname,
+    });
+    return {
+      message: "Login successful",
+      code: 200,
+      success: true,
+      data: {
+        token: token,
+      }
     };
   } catch (error: any) {
     return {
