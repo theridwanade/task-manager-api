@@ -4,6 +4,7 @@ import { connectdb } from "./util/connectdb";
 import authRoutes from "./routes/auth.route";
 import cookieParser from "cookie-parser";
 import userRoutes from "./routes/user.route";
+import taskRoutes from "./routes/task.route";
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
@@ -18,6 +19,7 @@ app.get("/", (req, res) => {
 
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
+app.use("/task", taskRoutes);
 
 app.listen(PORT, (err) => {
   if (err) {

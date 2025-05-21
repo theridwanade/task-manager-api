@@ -23,10 +23,12 @@ const taskModelSchema = new Schema<ITask>(
     project: {
       type: String,
       required: true,
+      ref: "Project",
     },
     section: {
       type: String,
       required: true,
+      ref: "Section",
     },
     title: {
       type: String,

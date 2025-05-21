@@ -86,7 +86,7 @@ export const authLoginService = async (loginData: AuthDataType) => {
       };
     }
     const token = await generateToken({
-      user: user._id,
+      userId: user._id,
       email: user.email,
       firstname: user.firstname,
       lastname: user.lastname,

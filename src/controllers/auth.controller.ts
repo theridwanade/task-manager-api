@@ -22,12 +22,7 @@ export const authSignupController = async (req: Request, res: Response) => {
 export const authLoginController = async (req: Request, res: Response) => {
   try {
     const result = await authLoginService(req.body);
-    res.cookie("token", result.data!.token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-    });
-    res.status(result.code).json({
+    res.status(result.code).set("Authorization", `Bearer ${result.data!.token}`).json({
       message: result.message,
       code: result.code,
       success: result.success,
