@@ -1,4 +1,4 @@
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import jwt, { Jwt, JwtPayload } from 'jsonwebtoken';
 
 interface TokenPayload extends JwtPayload {
   userId?: string;
@@ -6,10 +6,10 @@ interface TokenPayload extends JwtPayload {
   role?: string;
 }
 
-export const generateToken = async (data: any) => {
+export const generateToken = async (data: any, time: number) => {
   try {
     return jwt.sign(data, process.env.JWT_SECRET as string, {
-      expiresIn: '1h'
+      expiresIn: time,
     })
   } catch (error) {
     throw error

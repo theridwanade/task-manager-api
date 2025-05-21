@@ -27,6 +27,11 @@ export const authLoginController = async (req: Request, res: Response) => {
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
     });
+    res.cookie("refreshToken", result.data!.refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+    });
     res.status(result.code).set("Authorization", `Bearer ${result.data!.token}`).json({
       message: result.message,
       code: result.code,

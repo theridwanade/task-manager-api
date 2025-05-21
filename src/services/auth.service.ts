@@ -90,14 +90,20 @@ export const authLoginService = async (loginData: AuthDataType) => {
       email: user.email,
       firstname: user.firstname,
       lastname: user.lastname,
-    });
-    
+    }, 60 * 60); // 1 hour
+     const refreshToken = await generateToken({
+      userId: user._id,
+      email: user.email,
+      firstname: user.firstname,
+      lastname: user.lastname,
+    }, 60 * 60 * 24 * 30); // 30 days
     return {
       message: "Login successful",
       code: 200,
       success: true,
       data: {
         token: token,
+        refreshToken: refreshToken,
       }
     };
   } catch (error: any) {
