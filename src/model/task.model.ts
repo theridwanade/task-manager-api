@@ -22,12 +22,10 @@ const taskModelSchema = new Schema<ITask>(
     },
     project: {
       type: String,
-      required: true,
       ref: "Project",
     },
     section: {
       type: String,
-      required: true,
       ref: "Section",
     },
     title: {
@@ -36,7 +34,6 @@ const taskModelSchema = new Schema<ITask>(
     },
     description: {
       type: String,
-      required: true,
     },
     status: {
       type: String,
@@ -45,15 +42,12 @@ const taskModelSchema = new Schema<ITask>(
     },
     time: {
       type: Date,
-      default: Date.now(),
     },
     date: {
       type: Date,
-      default: Date.now(),
     },
     deadline: {
       type: Date,
-      default: Date.now(),
     },
     priority: {
       type: String,

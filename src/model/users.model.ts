@@ -7,7 +7,7 @@ interface IUser extends Document {
   firstname: string;
   lastname: string;
   isVerified: boolean;
-  task: string[];
+  tasks: string[];
 }
 
 const userModelSchema = new Schema<IUser>(
@@ -36,8 +36,9 @@ const userModelSchema = new Schema<IUser>(
       type: Boolean,
       default: false,
     },
-    task: {
+    tasks: {
       type: [String],
+      ref: "Task",
       default: [],
     },
   },
