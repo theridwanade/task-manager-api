@@ -125,7 +125,7 @@ export const authRefreshTokenController = async (
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
     });
-    res.status(200).json({
+    res.status(200) .set("Authorization", `Bearer ${token}`).json({
       message: "Token refreshed successfully",
       code: 200,
       success: true,
