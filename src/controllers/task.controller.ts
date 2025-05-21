@@ -47,9 +47,23 @@ export const createTask = async (req: Request, res: Response) => {
       });
       return;
     }
-    const user = await User.findByIdAndUpdate(userId, {
-      $push: { tasks: newTask._id },
-    });
+    const user = await User.findByIdAndUpdate(
+      userId,
+      {
+        $push: { tasks: newTask._id },
+      },
+      { new: true }
+    );
+
+    if (!user) {
+      res.status(404).json({
+        message: "User not found or not updated",
+        code: 404,
+        success: false,
+      });
+      return;
+    }
+
     res.status(201).json({
       message: "Task created successfully",
       code: 201,
